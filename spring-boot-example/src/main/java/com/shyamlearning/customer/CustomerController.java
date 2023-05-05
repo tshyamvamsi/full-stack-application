@@ -1,14 +1,12 @@
 package com.shyamlearning.customer;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
 @RestController
-
+@RequestMapping("/api/v1/customers")
 public class CustomerController {
 
 
@@ -17,15 +15,37 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/customers")
+    @GetMapping
     public List<Customer> getCustomers(){
         return customerService.getAllCustomers();
     }
 
-    @GetMapping("/customer/{customerId}")
+    @GetMapping("/{customerId}")
     public Customer getCustomerById(
             @PathVariable("customerId") Integer customerId){
 
         return customerService.getCustomer(customerId);
+    }
+
+    @PostMapping
+    public void registerCustomer (
+            @RequestBody CustomerRegistrationRequest req) {
+        customerService.addCustomer(req);
+    }
+
+    @DeleteMapping("/{customerId}")
+    public void deleteCustomer(
+            @PathVariable Integer customerId) {
+
+        customerService.deleteCustomerByID(customerId);
+    }
+
+    @PutMapping("/{customerId}")
+    public void updateCustomer(
+            @PathVariable Integer customerId,
+            @RequestBody CustomerRegistrationRequest updateRequest
+            ) {
+
+        customerService.updateCustomer(customerId, updateRequest );
     }
 }
