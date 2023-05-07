@@ -1,5 +1,7 @@
 package com.shyamlearning;
 
+import com.github.javafaker.Faker;
+import com.github.javafaker.Name;
 import com.shyamlearning.customer.Customer;
 import com.shyamlearning.customer.CustomerRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 @SpringBootApplication
 public class SpringBootExampleApplication {
@@ -30,21 +33,25 @@ public class SpringBootExampleApplication {
 
 	}
 
+
+
 	@Bean
 	CommandLineRunner runner(CustomerRepository customerRepository) {
 		return args -> {
-			Customer alex =new Customer(
-					"alex",
-					"alex@gmail.com",
-					21
-			);
-			Customer peter =new Customer(
-					"peter",
-					"peter@gmail.com",
-					22
-			);
-			List<Customer> customers = List.of(alex, peter);
-			customerRepository.saveAll(customers);
+
+			var faker = new Faker();
+			Random random = new Random();
+			Name name = faker.name();
+			String firstName = name.firstName();
+			String lastName = name.lastName();
+			String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@shyamlearning.com";
+			int age = random.nextInt(16, 99);
+
+			Customer customer = new Customer(firstName + " "+ lastName,
+					email,
+					age);
+
+			customerRepository.save(customer);
 		};
 	}
 
@@ -53,5 +60,8 @@ public class SpringBootExampleApplication {
 		return new Foo("bar");
 	}
 	record Foo(String name){}
+
+
+
 
 }
