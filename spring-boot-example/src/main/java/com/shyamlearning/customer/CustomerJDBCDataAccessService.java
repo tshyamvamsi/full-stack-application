@@ -1,4 +1,4 @@
-package com.shyamlearning;
+package com.shyamlearning.customer;
 
 import com.shyamlearning.customer.Customer;
 import com.shyamlearning.customer.CustomerDAO;
