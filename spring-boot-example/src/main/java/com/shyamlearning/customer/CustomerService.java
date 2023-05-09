@@ -55,7 +55,7 @@ public class CustomerService {
     }
 
     public void updateCustomer(Integer id,
-                               CustomerRegistrationRequest updateRequest){
+                               CustomerUpdateRequest updateRequest){
         Customer customer = getCustomer(id);
 
         boolean changes = false;
